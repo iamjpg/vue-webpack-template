@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h1>Component Two</h1>
+    <h4>Component Two</h4>
     <p>This input, in the second component, will update the store model thus changing the value in component one.</p>
     <p>
       <input name="message" v-model="message">
@@ -18,8 +18,5 @@
 </script>
 
 <style scoped>
-  input {
-    padding: 10px;
-    width: 400px;
-  }
+
 </style>

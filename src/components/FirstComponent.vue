@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h1>First Component</h1>
+    <h4>First Component</h4>
     <p>Data Output: <span>{{ message }}</span></p>
   </section>
 </template>
@@ -10,6 +10,9 @@
   export default {
     data () {
       return Store
+    },
+    mounted() {
+      console.log('Component Mounted!')
     }
   }
 </script>

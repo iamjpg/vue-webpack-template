@@ -3,9 +3,71 @@
   <head>
     <meta charset="utf-8">
     <title>vue-webpack-template</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
   </head>
-  <body>
+  <body
+    data-authbase="https://svc-devint.moxiworks.com"
+    data-authversion="v1"
+    data-servicebase="https://svc-devint.moxiworks.com"
+    data-rosterservicebase="http://localhost:4001"
+    data-serviceversion="v1"
+    data-chrome-app-url="https://base-devint.moxiworks.com"
+    data-company-uuid="1234567"
+    data-clienttoken="3c2b0dba-435c-45a5-8ff7-6c1f05d33943">
+
+    <section id="assets"></section>
+    <header></header>
+
     <div id="app"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
+    <script src="https://base-devint.moxiworks.com/assets/jquery.chromebar.js?v=1470294000"></script>
     <!-- built files will be auto injected -->
+
+
+    <script>
+    /*
+      This is to init the chrome bar in the development environment.
+     */
+    var initChromeBar;
+
+    initChromeBar = _.debounce(function() {
+      var b, wcb;
+      b = $('body');
+      return wcb = new WmsChromebar({
+        chrome_url: b.data('chrome-app-url'),
+        auth_url: b.data('servicebase') + '/service/' + b.data('serviceversion') + '/auth',
+        current_module: 'account_manager',
+        include_assets: true,
+        company_uuid: b.data('company-uuid'),
+        callback: function(assets, header, footer) {
+          var ddInt;
+          $('#assets').html(assets);
+          setTimeout(function() {
+            $('header').html(header);
+            return WmsChromebar.adjustHeader();
+          }, 10);
+          return ddInt = setInterval((function(_this) {
+            return function() {
+              if ($('.current-agent-name').length > 0) {
+                clearInterval(ddInt);
+                return $('.current-agent-name').dropdown();
+              }
+            };
+          })(this), 500);
+        }
+      });
+    }, 1000, true);
+
+    $(document).on('ready', (function(_this) {
+      return function() {
+        $('header, #assets').empty();
+        return initChromeBar();
+      };
+    })(this));
+  </script>
   </body>
 </html>
